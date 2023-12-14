@@ -1,0 +1,77 @@
+<head>
+    {% load static %}
+    <title>
+        Manga
+    </title>
+    <meta content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport">
+        <link href="{% static 'manga/manga_show.css' %}" rel="stylesheet" type="text/css"/>
+    </meta>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li>
+                <a href="/index">
+                    Inicio
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'manga:Index' %}">
+                    Lista de manga
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'book:Index' %}">
+                    Lista de novelas
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div id="content-main">
+        <div id="filter">
+            <input name="Sory By Release" type="Button" value="Release">
+                <a data-sort="Release" href="javascript:void(0)" id="sortby">
+                    Sory By Release
+                </a>
+            </input>
+        </div>
+        <div class="manga-lista module">
+            <center style="background-color: grey;">
+                <table>
+                    <caption>
+                        Manga
+                    </caption>
+                    <tbody id="table">{% for carpeta in carpetas %}
+                        <tr><th><a href="{{carpeta.numero}}">{{carpeta.nombre}}</a></th></tr>{% endfor %}
+                    </tbody>
+                </table>
+            </center>
+        </div>
+    </div>
+</body>
+<template id="lista">
+  {% verbatim %}
+  <tr><th><a href="{{carpeta.numero}}">{{carpeta.nombre}}</a></th></tr>
+  {% endverbatim %}
+</template>
+<script type="text/javascript">
+function create(datarecord) {
+  return `${datarecord.carpetas.map(carpeta => 
+        `<tr><th><a href="${carpeta.numero}">${carpeta.nombre}</a></th></tr>
+        `).join("")}`};
+    var form = document.getElementById("sortby");
+form.addEventListener('click', function(e) {
+    e.preventDefault();
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '{% url 'manga:Index' %}', true);
+    data = new FormData()
+    data.append('SortBy', this.dataset.sort)
+    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+    xhr.send(data);
+    xhr.onreadystatechange = function(){
+      if(xhr.readyState == 4 && xhr.status == 200){
+        document.getElementById("table").innerHTML = create(JSON.parse(xhr.responseText));
+      }
+    }
+  });
+</script>

@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Index -- Book</title>
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"> -->
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" media="screen"> <!--c Llamamos al archivo CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- https://openwebinars.net/blog/tutorial-bootstrap-3-introduccion-e-instalacion/ -->
+  </head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top nav-pills">
+        <div class="container"> <!-- container tiene un pequeño espaciado hacia los lados -->
+          <a href="" class="navbar-brand"> <!-- a href muestr el nombre del sitio web// class="navbar-brand" estileriza el sitio web -->
+            Book <!-- texto del navbar -->
+          </a>
+          <!-- boton qu aparece en pantalas pequeñas usando bootsrap tipo collarpse -->
+          <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse"> <!-- el id es #navbarColapse que lo crea el programador -->
+            <span class="navbar-toggler-icon"></span> <!-- icono de menu de hamburguesa -->
+          </button>
+  
+          <div class="collapse navbar-collapse" id="navbarCollapse"> <!-- id = "navbarcollapse" creado por el programador cuando el boton preciona se adapta a dipositivo movil -->
+            <ul class="navbar-nav ml-auto"> <!-- ml se va al lado derecho de la pantalla -->
+              <li class="nav-item"> <!-- clase de botstrap que enlista -->
+                <a href="{% url 'book:Index' %}" class="nav-link">Novelas</a> <!-- href="#home-section" (nombre elegido por ti) llama a una mseccion de pagina creado por el programador //nav-link es una clase de bootstrap -->
+                </li>
+              <li class="nav-item">
+              <a href="{% url 'manga:Index' %}" class="nav-link">Manga</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+<div class="container" style='padding-top:15vh,font-size:14px;font-family:"open sans",sans-serif;'>
+  <h4 style='padding-top:15vh'>Index</h4>
+  <div>
+    {% for carpeta in carpetas %}
+      <h3><a href="{{carpeta.numero}}"><span>{{carpeta.nombre}}</span></a></h3>
+    {% endfor %}
+  </div>
+</div>
+
+<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>-->
+<script src="{% static "jquery-3.3.1.slim.min.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script> <!-- Llamamos al JavaScript de Bootstrap -->
+<!-- https://openwebinars.net/blog/tutorial-bootstrap-3-introduccion-e-instalacion/ -->
+</body>
+</html>

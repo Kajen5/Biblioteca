@@ -1,0 +1,60 @@
+{{mensaje}}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'manga/manga_show.css' %}" />
+{# <script src="{% static 'jquery-3.3.1.min.js' %}"></script> #}
+<center>
+  <div class="paginas" style="background: #0e0e0e;">
+    {% load static %}{% for chaper in imagenes %}
+    {% for imagen in chaper.pags %}
+      <img src='{% static imagen %}' >{% endfor %}{% endfor %}
+  </div>
+</center>
+{% if imagenes.has_other_pages %}
+<div>
+   <ul class="pagination" style="display: flex;">
+    {% if imagenes.has_previous %}
+    <li><a href="?page={{ imagenes.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+    <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    <li>
+    <select id="capitulos">
+    {% for i in imagenes.paginator.page_range %}
+    <option {% if imagenes.number == i %}selected{% endif %} value="?page={{i}}">{{i}}</option>
+    {% endfor %}
+    </select>
+    </li>
+    {% for i in imagenes.paginator.page_range %}
+    {% if imagenes.number == i %}
+    <li class="active">
+      <span>{{i}}<span class="sr-only"></span></span>
+    </li>
+      {% endif %}
+    {% endfor %}
+    {% if imagenes.has_next %}
+    <li><a href="?page={{ imagenes.next_page_number }}">&raquo;</a></li>
+    {% else %}<li class="disabled"><span>&raquo;</span></li>
+    {% endif %}</ul>
+{% endif %}
+  </div>
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+document.getElementById("capitulos").addEventListener('change', function(){
+    window.location = this.value;
+});
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+    var myDropdown = document.getElementById("myDropdown");
+      if (myDropdown.classList.contains('show')) {
+        myDropdown.classList.remove('show');
+      }
+  }
+}
+</script>

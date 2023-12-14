@@ -1,0 +1,74 @@
+{% spaceless %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{chapter.current}}</title>
+  {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'manga/manga_show.css' %}" />
+</head>
+<body>
+
+{#  <script src="{% static 'jquery-3.3.1.min.js' %}"></script>#}
+<center>
+  <div class="paginas" style="background: #0e0e0e;">
+    {% load static %}{% for imagen in chapter.pages %}
+      {# <img src='{% static imagen %}'> #}
+      <img src='{% get_static_prefix %}manga/{{name|urlencode}}/{{name|urlencode}}{{imagen|urlencode}}'>
+      {% endfor %}
+
+  </div>
+</center>
+<div>
+   <ul class="pagination" style="display: flex;">
+    {% if chapter.has_prev %}
+    <li><a id="previo" href="?Chapter={{chapter.has_prev}}">&laquo;</a></li>
+    {% else %}
+    <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    <li>
+    <select id="capitulos" onchange="window.location = '?Chapter=' + this.value;">
+    {% for i in lista %}
+    <option {% if chapter.current == i %}selected{% endif %} value="{{i}}">{{i}}</option>
+    {% endfor %}
+    </select>
+    </li>
+    {% if chapter.has_next %}
+    <li><a id="next" href="?Chapter={{chapter.has_next}}">&raquo;</a></li>
+    {% else %}<li class="disabled"><span>&raquo;</span></li>
+    {% endif %}</ul>
+  </div>
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+/*$('select#capitulos').change(function(){
+    window.location = $(this).val();
+});*/
+/*document.getElementById("capitulos").addEventListener('change', function(){
+    window.location = '?Chapter=' + this.value;
+});*/
+document.onkeyup = KeyCheck;
+ function KeyCheck(e){
+    var KeyID = (window.event) ? event.keyCode : e.keyCode;
+    switch(KeyID){ 
+      case 37:
+      document.getElementById("previo").click()
+      break;
+      case 39:
+      document.getElementById("next").click()
+      break;}}
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+// Close the dropdown if the user clicks outside of it
+/*window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+    var myDropdown = document.getElementById("myDropdown");
+      if (myDropdown.classList.contains('show')) {
+        myDropdown.classList.remove('show');
+      }
+  }
+}*/
+</script>
+</body>
+</html>
+{% endspaceless %}
